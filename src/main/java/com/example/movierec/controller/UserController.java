@@ -42,6 +42,7 @@ public class UserController {
         }
     }
 
+    // TODO 刘
     /**
      * 用户注册接口
      *
@@ -53,6 +54,7 @@ public class UserController {
         return null;
     }
 
+    // TODO 张
     /**
      * 获取个人信息接口
      * @param request
@@ -64,6 +66,7 @@ public class UserController {
         return null;
     }
 
+    // TODO 张
     /**
      * 修改个人信息接口
      * @param user
@@ -74,6 +77,7 @@ public class UserController {
         return null;
     }
 
+    // TODO 刘
     /**
      * 修改密码接口
      * @param oldPassword
