@@ -51,7 +51,11 @@ public class UserController {
      */
     @PostMapping("register")
     public ResponseEntity<Object> register(@RequestBody User user) {
-        return null;
+        if (userService.userExists(user.getUsername())) {
+            return new ResponseEntity<>("用户名已存在", HttpStatus.BAD_REQUEST);
+        }
+        userService.saveUser(user);
+        return new ResponseEntity<>("注册成功", HttpStatus.CREATED);
     }
 
     // TODO 张
@@ -88,7 +92,14 @@ public class UserController {
     @PutMapping("changePassword")
     public ResponseEntity<Object> changePassword(@RequestParam String oldPassword,
                                                  @RequestParam String newPassword,
-                                                 HttpServletRequest request){
-        return null;
+                                                 HttpServletRequest request) {
+        Integer id = (Integer) request.getAttribute("id");
+        User user = userMapper.selectById(id);
+        if (!user.getPassword().equals(oldPassword)) {
+            return new ResponseEntity<>("旧密码错误", HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(newPassword);
+        userMapper.updateUserPassword(user);
+        return new ResponseEntity<>("密码修改成功", HttpStatus.OK);
     }
 }
