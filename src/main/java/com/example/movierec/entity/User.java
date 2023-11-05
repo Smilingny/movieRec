@@ -25,4 +25,7 @@ public class User {
         this.password=password;
         this.sex=sex;
     }
+    public String getUsername() {
+        return this.name;
+    }
 }

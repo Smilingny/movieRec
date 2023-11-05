@@ -31,4 +31,29 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+    @Override
+    public boolean userExists(String username) {
+        return userMapper.checkUsernameExists(username);
+    }
+    @Override
+    public void saveUser(User user) {
+        if (!userExists(user.getUsername())) {
+            userMapper.insertUserFull(user);
+        } else {
+            throw new RuntimeException("用户名已存在");
+        }
+    }
+    @Override
+    public void updatePassword(User user) {
+        // 检查用户是否存在
+        if (!userExists(user.getUsername())) {
+            throw new RuntimeException("用户不存在");
+        }
+        // 检查新密码是否为空
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("新密码不能为空");
+        }
+        // 调用UserMapper的方法更新密码
+        userMapper.updateUserPassword(user);
+    }
 }
