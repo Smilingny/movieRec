@@ -1,4 +1,8 @@
 package com.example.movierec.service.impl;
 
-public class MovieServiceImpl {
+import com.example.movierec.service.MovieService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MovieServiceImpl implements MovieService {
 }

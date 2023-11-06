@@ -7,14 +7,14 @@ import com.auth0.jwt.interfaces.Claim;
 import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.util.JwtUtil;
 import com.example.movierec.util.RedisCache;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Objects;
 
@@ -26,6 +26,7 @@ public class JWTInterceptor implements HandlerInterceptor {
     public JWTInterceptor(RedisCache redisCache) {
         this.redisCache = redisCache;
     }
+
     @Autowired
     private UserMapper userMapper;
 
@@ -42,7 +43,8 @@ public class JWTInterceptor implements HandlerInterceptor {
             Integer id = decodedJWT.get("id").asInt();
             String key = "user:" + id;
             if (!Objects.isNull(redisCache.getCacheObject(key))) {
-                request.setAttribute("id",id);
+                // 将用户id加入request
+                request.setAttribute("id", id);
                 return true;
             }
 

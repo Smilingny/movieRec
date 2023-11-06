@@ -9,7 +9,6 @@ import com.example.movierec.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,6 +18,14 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RedisCache redisCache;
+
+
+    /**
+     * 登录功能
+     * @param account 账号
+     * @param password 密码
+     * @return jwt
+     */
     @Override
     public String login(String account, String password) {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
@@ -31,6 +38,18 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    /**
+     * 用户退出登录功能
+     * @param userId 用户id
+     * @return 退出结果
+     */
+    @Override
+    public Boolean logout(Integer userId) {
+        String key = "user:"+userId;
+        return redisCache.deleteObject(key);
+    }
+
     @Override
     public boolean userExists(String username) {
         return userMapper.checkUsernameExists(username);
@@ -43,17 +62,17 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("用户名已存在");
         }
     }
-    @Override
-    public void updatePassword(User user) {
-        // 检查用户是否存在
-        if (!userExists(user.getUsername())) {
-            throw new RuntimeException("用户不存在");
-        }
-        // 检查新密码是否为空
-        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("新密码不能为空");
-        }
-        // 调用UserMapper的方法更新密码
-        userMapper.updateUserPassword(user);
-    }
+//    @Override
+//    public void updatePassword(User user) {
+//        // 检查用户是否存在
+//        if (!userExists(user.getUsername())) {
+//            throw new RuntimeException("用户不存在");
+//        }
+//        // 检查新密码是否为空
+//        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+//            throw new IllegalArgumentException("新密码不能为空");
+//        }
+//        // 调用UserMapper的方法更新密码
+//        userMapper.updateUserPassword(user);
+//    }
 }

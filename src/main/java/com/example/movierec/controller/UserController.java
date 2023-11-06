@@ -4,12 +4,12 @@ package com.example.movierec.controller;
 import com.example.movierec.entity.User;
 import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @RestController
@@ -17,8 +17,6 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserMapper userMapper;
 
     /**
      * 用户登陆接口
@@ -42,7 +40,21 @@ public class UserController {
         }
     }
 
+    /**
+     * 退出登录接口
+     * @param request 包含用户id
+     * @return 退出结果
+     */
+    @GetMapping("logout")
+    public ResponseEntity<Object> logout(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("id");
+        if (userService.logout(userId)) {
+            return new ResponseEntity<>("退出成功", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("退出失败", HttpStatus.BAD_REQUEST);
+    }
     // TODO 刘
+
     /**
      * 用户注册接口
      *
@@ -59,9 +71,11 @@ public class UserController {
     }
 
     // TODO 张
+
     /**
      * 获取个人信息接口
-     * @param request
+     *
+     * @param request 包含用户id
      * @return
      */
     @GetMapping("getInfo")
@@ -71,13 +85,15 @@ public class UserController {
     }
 
     // TODO 张
+
     /**
      * 修改个人信息接口
+     *
      * @param user
      * @return
      */
     @PutMapping("changeInfo")
-    public ResponseEntity<Object> changeInfo(@RequestBody User user){
+    public ResponseEntity<Object> changeInfo(@RequestBody User user) {
         return null;
     }
 
@@ -89,17 +105,17 @@ public class UserController {
      * @param request
      * @return
      */
-    @PutMapping("changePassword")
-    public ResponseEntity<Object> changePassword(@RequestParam String oldPassword,
-                                                 @RequestParam String newPassword,
-                                                 HttpServletRequest request) {
-        Integer id = (Integer) request.getAttribute("id");
-        User user = userMapper.selectById(id);
-        if (!user.getPassword().equals(oldPassword)) {
-            return new ResponseEntity<>("旧密码错误", HttpStatus.BAD_REQUEST);
-        }
-        user.setPassword(newPassword);
-        userMapper.updateUserPassword(user);
-        return new ResponseEntity<>("密码修改成功", HttpStatus.OK);
-    }
+//    @PutMapping("changePassword")
+//    public ResponseEntity<Object> changePassword(@RequestParam String oldPassword,
+//                                                 @RequestParam String newPassword,
+//                                                 HttpServletRequest request) {
+//        Integer id = (Integer) request.getAttribute("id");
+//        User user = userMapper.selectById(id);
+//        if (!user.getPassword().equals(oldPassword)) {
+//            return new ResponseEntity<>("旧密码错误", HttpStatus.BAD_REQUEST);
+//        }
+//        user.setPassword(newPassword);
+//        userMapper.updateUserPassword(user);
+//        return new ResponseEntity<>("密码修改成功", HttpStatus.OK);
+//    }
 }
