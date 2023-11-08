@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void saveUser(User user) {
-        if (!userExists(user.getUsername())) {
+        if (!userExists(user.getName())) {
             userMapper.insertUserFull(user);
         } else {
             throw new RuntimeException("用户名已存在");

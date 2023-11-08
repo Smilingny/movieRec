@@ -27,9 +27,6 @@ public class JWTInterceptor implements HandlerInterceptor {
         this.redisCache = redisCache;
     }
 
-    @Autowired
-    private UserMapper userMapper;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {

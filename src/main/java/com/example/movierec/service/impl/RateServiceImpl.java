@@ -33,4 +33,17 @@ public class RateServiceImpl implements RateService {
             return ratingMapper.insert(rating) != 0;
         }
     }
+
+    /**
+     * 点赞电影点评
+     *
+     * @param ratingId 评论ID
+     * @return 评论结果
+     */
+    @Override
+    public Boolean agreeOnRating(Integer ratingId) {
+        QueryWrapper<Rating> ratingQueryWrapper = new QueryWrapper<>();
+        ratingQueryWrapper.eq("id",ratingId);
+        return ratingMapper.updateAgree(ratingQueryWrapper) == 1;
+    }
 }

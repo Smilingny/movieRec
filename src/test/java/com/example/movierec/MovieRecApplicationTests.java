@@ -1,6 +1,10 @@
 package com.example.movierec;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Genre;
 import com.example.movierec.entity.Movie;
 import com.example.movierec.entity.Rating;
@@ -55,15 +59,17 @@ class MovieRecApplicationTests {
 
     @Test
     void f2(){
-        System.out.println(rateService.ratingMovie(1, 2, 2.5, "hello"));
+        Date date = new Date();
+        System.out.println(date);
     }
 
     @Test
     void f3(){
-        User user = new User();
-        user.setAccount("2028");
-        user.setPassword("pass");
-        userMapper.insert(user);
+        QueryWrapper<Genre> genreQueryWrapper = new QueryWrapper<>();
+        genreQueryWrapper.eq("name","Action");
+        IPage<MovieSimple> movieIPage = new Page<>(1,10);
+        IPage<MovieSimple> moviePage = genreMapper.getMovies(movieIPage, genreQueryWrapper);
+        System.out.println();
     }
 
     @Test

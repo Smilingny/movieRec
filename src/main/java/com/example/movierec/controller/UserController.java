@@ -53,6 +53,7 @@ public class UserController {
         }
         return new ResponseEntity<>("退出失败", HttpStatus.BAD_REQUEST);
     }
+
     // TODO 刘
 
     /**
@@ -63,7 +64,7 @@ public class UserController {
      */
     @PostMapping("register")
     public ResponseEntity<Object> register(@RequestBody User user) {
-        if (userService.userExists(user.getUsername())) {
+        if (userService.userExists(user.getName())) {
             return new ResponseEntity<>("用户名已存在", HttpStatus.BAD_REQUEST);
         }
         userService.saveUser(user);
@@ -105,17 +106,11 @@ public class UserController {
      * @param request
      * @return
      */
-//    @PutMapping("changePassword")
-//    public ResponseEntity<Object> changePassword(@RequestParam String oldPassword,
-//                                                 @RequestParam String newPassword,
-//                                                 HttpServletRequest request) {
-//        Integer id = (Integer) request.getAttribute("id");
-//        User user = userMapper.selectById(id);
-//        if (!user.getPassword().equals(oldPassword)) {
-//            return new ResponseEntity<>("旧密码错误", HttpStatus.BAD_REQUEST);
-//        }
-//        user.setPassword(newPassword);
-//        userMapper.updateUserPassword(user);
-//        return new ResponseEntity<>("密码修改成功", HttpStatus.OK);
-//    }
+    @PutMapping("changePassword")
+    public ResponseEntity<Object> changePassword(@RequestParam String oldPassword,
+                                                 @RequestParam String newPassword,
+                                                 HttpServletRequest request) {
+        Integer id = (Integer) request.getAttribute("id");
+        return null;
+    }
 }

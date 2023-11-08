@@ -13,4 +13,11 @@ public interface RateService {
      * @return 评价结果
      */
     Boolean ratingMovie(Integer userId, Integer movieId, Double score, String comment);
+
+    /**
+     * 点赞电影点评
+     * @param ratingId 评论ID
+     * @return 评论结果
+     */
+    Boolean agreeOnRating(Integer ratingId);
 }
