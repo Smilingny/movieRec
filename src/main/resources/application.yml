@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/movierec
+    url: jdbc:mysql://120.24.192.174:3306/movie_rec
     username: root
-    password: kirit
+    password: useradmin@YNU
   data:
     redis:
       host: localhost

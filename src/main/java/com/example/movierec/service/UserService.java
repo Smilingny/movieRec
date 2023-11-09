@@ -23,4 +23,7 @@ public interface UserService {
     boolean userExists(String username);
     void saveUser(User user);
 
+    User findById(Integer id);
+
+    void changeInfoById(Integer id, String name, String account, Boolean sex);
 }

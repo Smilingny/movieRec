@@ -6,6 +6,7 @@ import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,12 +78,21 @@ public class UserController {
      * 获取个人信息接口
      *
      * @param request 包含用户id
-     * @return
+     * @return info
      */
     @GetMapping("getInfo")
     public ResponseEntity<Object> getInfo(HttpServletRequest request) {
-        Integer id = (Integer) request.getAttribute("id"); // 获取用户id
-        return null;
+        try {
+            Integer id = (Integer) request.getAttribute("id"); // 获取用户id
+            User info=userService.findById(id);
+            if (!Objects.isNull(info)){
+                return new ResponseEntity<>(info,HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("用户不存在",HttpStatus.NOT_FOUND);
+            }
+        } catch (NullPointerException e){
+            return new ResponseEntity<>("请输入id",HttpStatus.BAD_REQUEST);
+        }
     }
 
     // TODO 张
@@ -95,7 +105,12 @@ public class UserController {
      */
     @PutMapping("changeInfo")
     public ResponseEntity<Object> changeInfo(@RequestBody User user) {
-        return null;
+        try {
+            userService.changeInfoById(user.getId(), user.getName(), user.getAccount(), user.getSex());
+            return new ResponseEntity<>("修改成功",HttpStatus.OK);
+        }catch (DataAccessException e){
+            return new ResponseEntity<>("修改失败",HttpStatus.BAD_REQUEST);
+        }
     }
 
     // TODO 刘

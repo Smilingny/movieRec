@@ -1,6 +1,7 @@
 package com.example.movierec.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.movierec.entity.User;
 import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.service.UserService;
@@ -61,6 +62,27 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new RuntimeException("用户名已存在");
         }
+    }
+
+    @Override
+    public User findById(Integer id) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper
+                .select("id","name", "account", "sex")
+                .eq("id", id);
+        User user = userMapper.selectOne(userQueryWrapper);
+        return user;
+    }
+
+    @Override
+    public void changeInfoById(Integer id, String name, String account, Boolean sex) {
+        UpdateWrapper<User> userUpdateWrapper=new UpdateWrapper<>();
+        userUpdateWrapper
+                .set("name",name)
+                .set("account",account)
+                .set("sex",sex)
+                .eq("id",id);
+        userMapper.update(null, userUpdateWrapper);
     }
 //    @Override
 //    public void updatePassword(User user) {

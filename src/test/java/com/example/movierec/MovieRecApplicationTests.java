@@ -14,6 +14,7 @@ import com.example.movierec.mapper.MovieMapper;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.service.RateService;
+import com.example.movierec.service.UserService;
 import com.example.movierec.util.JwtUtil;
 import com.example.movierec.util.RedisCache;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ class MovieRecApplicationTests {
     @Autowired
     private UserMapper userMapper;
     @Autowired
+    private UserService userService;
+    @Autowired
     private MovieMapper movieMapper;
     @Autowired
     private GenreMapper genreMapper;
@@ -49,13 +52,18 @@ class MovieRecApplicationTests {
     void contextLoads() {
         List<User> users =userMapper.selectList(null);
         users.forEach(System.out::println);
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<>();
         map.put("name","张完");
         User user = (User) userMapper.selectByMap(map).get(0);
         System.out.println(user);
     }
 
 
+    @Test
+    void changeInfo(){
+        userService.changeInfoById(1,"张完","2023",false);
+        System.out.println(userService.findById(1));
+    }
 
     @Test
     void f2(){
