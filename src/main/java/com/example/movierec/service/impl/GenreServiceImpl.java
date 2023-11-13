@@ -11,6 +11,8 @@ import com.example.movierec.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GenreServiceImpl implements GenreService {
     @Autowired
@@ -29,5 +31,18 @@ public class GenreServiceImpl implements GenreService {
         genreQueryWrapper.orderBy(true,false,"rating");
         IPage<MovieSimple> page = new Page<>(pageNumber, pageSize);
         return genreMapper.getMovies(page, genreQueryWrapper);
+    }
+
+    /**
+     * 获取电影的类型
+     *
+     * @param movieId 电影id
+     * @return 电影的类型列表
+     */
+    @Override
+    public List<String> getMovieGenres(Integer movieId) {
+        QueryWrapper<Movie> movieQueryWrapper = new QueryWrapper<>();
+        movieQueryWrapper.eq("m.id",movieId);
+        return genreMapper.getMovieGenres(movieQueryWrapper);
     }
 }

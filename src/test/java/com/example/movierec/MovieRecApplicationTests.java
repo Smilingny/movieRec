@@ -13,6 +13,7 @@ import com.example.movierec.mapper.GenreMapper;
 import com.example.movierec.mapper.MovieMapper;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.mapper.UserMapper;
+import com.example.movierec.service.GenreService;
 import com.example.movierec.service.RateService;
 import com.example.movierec.service.UserService;
 import com.example.movierec.util.JwtUtil;
@@ -35,6 +36,8 @@ class MovieRecApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private GenreService genreService;
     @Autowired
     private MovieMapper movieMapper;
     @Autowired
@@ -67,8 +70,7 @@ class MovieRecApplicationTests {
 
     @Test
     void f2(){
-        Date date = new Date();
-        System.out.println(date);
+        genreService.getMovieGenres(1);
     }
 
     @Test
@@ -85,7 +87,6 @@ class MovieRecApplicationTests {
         String djangoServiceUrl = "http://localhost:8000/python/";  // Django服务的URL
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(djangoServiceUrl, String.class);
-
         System.out.println("Response from Django (Python) service: " + response);
     }
 }

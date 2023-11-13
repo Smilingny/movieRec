@@ -5,6 +5,8 @@ import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Movie;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface GenreService {
     /**
@@ -15,4 +17,11 @@ public interface GenreService {
      * @return 分页电影数据
      */
     IPage<MovieSimple> getMoviesByGenre(String genre, int pageNumber, int pageSize);
+
+    /**
+     * 获取电影的类型
+     * @param movieId 电影id
+     * @return 电影的类型列表
+     */
+    List<String> getMovieGenres(Integer movieId);
 }

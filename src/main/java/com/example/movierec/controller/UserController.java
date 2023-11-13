@@ -43,6 +43,7 @@ public class UserController {
 
     /**
      * 退出登录接口
+     *
      * @param request 包含用户id
      * @return 退出结果
      */
@@ -114,8 +115,10 @@ public class UserController {
     }
 
     // TODO 刘
+
     /**
      * 修改密码接口
+     *
      * @param oldPassword
      * @param newPassword
      * @param request
