@@ -66,11 +66,12 @@ public class UserController {
      */
     @PostMapping("register")
     public ResponseEntity<Object> register(@RequestBody User user) {
-        if (userService.userExists(user.getName())) {
-            return new ResponseEntity<>("用户名已存在", HttpStatus.BAD_REQUEST);
+        boolean result = userService.saveUser(user);
+        if (result) {
+            return new ResponseEntity<>("用户注册成功", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("用户注册失败", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        userService.saveUser(user);
-        return new ResponseEntity<>("注册成功", HttpStatus.CREATED);
     }
 
     // TODO 张
@@ -129,6 +130,12 @@ public class UserController {
                                                  @RequestParam String newPassword,
                                                  HttpServletRequest request) {
         Integer id = (Integer) request.getAttribute("id");
-        return null;
+        User user = userService.findById(id); // 获取用户信息
+        if(!user.getPassword().equals(oldPassword)) { // 验证旧密码是否正确
+            return ResponseEntity.status(400).body("Old password is incorrect");
+        }
+        user.setPassword(newPassword); // 更新密码
+        userService.updateUser(user); // 更新用户信息到数据库
+        return ResponseEntity.ok("Password changed successfully");
     }
 }

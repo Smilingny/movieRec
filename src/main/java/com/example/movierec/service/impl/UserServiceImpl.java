@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private RedisCache redisCache;
 
 
+
     /**
      * 登录功能
      * @param account 账号
@@ -52,15 +53,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userExists(String username) {
-        return userMapper.checkUsernameExists(username);
-    }
-    @Override
-    public void saveUser(User user) {
-        if (!userExists(user.getName())) {
-            userMapper.insertUserFull(user);
+    public boolean saveUser(User user) {
+        // 检查用户名是否存在
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", user.getUsername());
+        User existingUser = userMapper.selectOne(queryWrapper);
+
+        if (existingUser != null) {
+            // 用户名已存在
+            return false;
         } else {
-            throw new RuntimeException("用户名已存在");
+            // 用户名不存在，执行保存操作
+            userMapper.insert(user);
+            return true;
         }
     }
 
@@ -84,17 +89,9 @@ public class UserServiceImpl implements UserService {
                 .eq("id",id);
         userMapper.update(null, userUpdateWrapper);
     }
-//    @Override
-//    public void updatePassword(User user) {
-//        // 检查用户是否存在
-//        if (!userExists(user.getUsername())) {
-//            throw new RuntimeException("用户不存在");
-//        }
-//        // 检查新密码是否为空
-//        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-//            throw new IllegalArgumentException("新密码不能为空");
-//        }
-//        // 调用UserMapper的方法更新密码
-//        userMapper.updateUserPassword(user);
-//    }
+    public void updateUser(User user) {
+        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+        userUpdateWrapper.eq("id", user.getId());
+        userMapper.update(user, userUpdateWrapper);
+    }
 }
