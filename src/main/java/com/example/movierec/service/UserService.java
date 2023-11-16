@@ -20,7 +20,6 @@ public interface UserService {
      */
     Boolean logout(Integer userId);
 
-    boolean userExists(String username);
     boolean saveUser(User user);
 
     void updateUser(User user);

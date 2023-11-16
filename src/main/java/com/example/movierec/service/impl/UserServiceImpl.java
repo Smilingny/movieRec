@@ -94,4 +94,6 @@ public class UserServiceImpl implements UserService {
         userUpdateWrapper.eq("id", user.getId());
         userMapper.update(user, userUpdateWrapper);
     }
+
+
 }
