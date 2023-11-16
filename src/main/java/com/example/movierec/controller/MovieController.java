@@ -1,6 +1,7 @@
 package com.example.movierec.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Movie;
 import com.example.movierec.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,10 @@ public class MovieController {
     public ResponseEntity<Object> getMovies(@RequestParam(value = "pageNumber") int pageNumber,
                                             @RequestParam(value = "pageSize") int pageSize,
                                             HttpServletRequest request) {
-        return null;
+        // 调用MovieService的方法获取分页电影列表，并按评分排序
+        IPage<MovieSimple> movieList = movieService.getPagedMoviesSortedByRating(pageNumber, pageSize);
+        // 返回电影列表
+        return ResponseEntity.ok(movieList);
     }
 
     // TODO 刘
@@ -44,7 +48,12 @@ public class MovieController {
      */
     @GetMapping("getMovieInfo")
     public ResponseEntity<Object> getMovieInfo(@RequestParam(value = "movieId") Integer movieId) {
-        return null;
+        Movie movie = movieService.getMovieById(movieId);
+        if (movie == null) {
+            return new ResponseEntity<>("电影不存在", HttpStatus.NOT_FOUND);
+        } else {
+            return ResponseEntity.ok(movie);
+        }
     }
 
     @GetMapping("searchMovie")

@@ -21,7 +21,9 @@ public interface UserService {
     Boolean logout(Integer userId);
 
     boolean userExists(String username);
-    void saveUser(User user);
+    boolean saveUser(User user);
+
+    void updateUser(User user);
 
     User findById(Integer id);
 
