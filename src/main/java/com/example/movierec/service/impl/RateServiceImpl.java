@@ -7,8 +7,6 @@ import com.example.movierec.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 
 @Service
 public class RateServiceImpl implements RateService {
@@ -16,11 +14,10 @@ public class RateServiceImpl implements RateService {
     private RatingMapper ratingMapper;
 
     /**
-     * 评价电影
-     *
-     * @param userId  用户id
+     *  评价电影
+     * @param userId 用户id
      * @param movieId 电影id
-     * @param score   分数
+     * @param score 分数
      * @param comment 评价内容
      * @return 评价结果
      */
@@ -31,7 +28,7 @@ public class RateServiceImpl implements RateService {
         existWrapper.eq("user", userId)
                 .eq("movie", movieId);
         if (ratingMapper.exists(existWrapper)) {
-            return ratingMapper.update(rating, existWrapper) != 0;
+            return ratingMapper.update(rating,existWrapper) != 0;
         } else {
             return ratingMapper.insert(rating) != 0;
         }
@@ -46,29 +43,7 @@ public class RateServiceImpl implements RateService {
     @Override
     public Boolean agreeOnRating(Integer ratingId) {
         QueryWrapper<Rating> ratingQueryWrapper = new QueryWrapper<>();
-        ratingQueryWrapper.eq("id", ratingId);
+        ratingQueryWrapper.eq("id",ratingId);
         return ratingMapper.updateAgree(ratingQueryWrapper) == 1;
-    }
-
-    @Override
-    public String selectRating(Integer movieId, Integer userId) {
-        QueryWrapper<Rating> selectratingQueryWrapper = new QueryWrapper<>();
-        selectratingQueryWrapper
-                .eq("movie", movieId)
-                .eq("user", userId);
-        Rating result = ratingMapper.selectOne(selectratingQueryWrapper);
-        if (result == null) {
-            return null;
-        } else {
-            return result.toString();
-        }
-    }
-
-    @Override
-    public List<Rating> selectAllRating(Integer movieId) {
-        QueryWrapper<Rating> selectallratingQueryWrapper = new QueryWrapper<>();
-        selectallratingQueryWrapper
-                .eq("movie", movieId);
-        return ratingMapper.selectList(selectallratingQueryWrapper);
     }
 }

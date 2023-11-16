@@ -1,14 +1,11 @@
 package com.example.movierec.controller;
 
-import com.example.movierec.entity.Rating;
 import com.example.movierec.service.RateService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -50,14 +47,7 @@ public class RateController {
     @GetMapping("getRating")
     public ResponseEntity<Object> getRating(@RequestParam(value = "movieId") Integer movieId,
                                             HttpServletRequest request) {
-        Integer userId = (Integer) request.getAttribute("id");
-        String rating = rateService.selectRating(movieId, userId);
-        if (rating.isEmpty()) {
-            return new ResponseEntity<>("评价不存在", HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(rating, HttpStatus.OK);
-        }
-
+        return null;
     }
 
     // TODO 张
@@ -72,13 +62,7 @@ public class RateController {
     public ResponseEntity<Object> getAllRatings(@RequestParam(value = "movieId") Integer movieId,
                                                 @RequestParam(value = "pageNumber") int pageNumber,
                                                 @RequestParam(value = "pageSize") int pageSize) {
-        List<Rating> allrating = rateService.selectAllRating(movieId);
-        if (allrating.isEmpty()) {
-            return new ResponseEntity<>("未获取到评价", HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(allrating, HttpStatus.OK);
-        }
-
+        return null;
     }
 
     /**
