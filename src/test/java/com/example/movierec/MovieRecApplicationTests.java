@@ -53,40 +53,45 @@ class MovieRecApplicationTests {
 
     @Test
     void contextLoads() {
-        List<User> users =userMapper.selectList(null);
+        List<User> users = userMapper.selectList(null);
         users.forEach(System.out::println);
-        Map<String,Object> map = new HashMap<>();
-        map.put("name","张完");
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "张完");
         User user = (User) userMapper.selectByMap(map).get(0);
         System.out.println(user);
     }
 
 
     @Test
-    void changeInfo(){
-        userService.changeInfoById(1,"张完","2023",false);
+    void changeInfo() {
+        userService.changeInfoById(1, "张完", "2023", false);
         System.out.println(userService.findById(1));
     }
 
     @Test
-    void f2(){
+    void f2() {
         genreService.getMovieGenres(1);
     }
 
     @Test
-    void f3(){
+    void f3() {
         QueryWrapper<Genre> genreQueryWrapper = new QueryWrapper<>();
-        genreQueryWrapper.eq("name","Action");
-        IPage<MovieSimple> movieIPage = new Page<>(1,10);
+        genreQueryWrapper.eq("name", "Action");
+        IPage<MovieSimple> movieIPage = new Page<>(1, 10);
         IPage<MovieSimple> moviePage = genreMapper.getMovies(movieIPage, genreQueryWrapper);
         System.out.println();
     }
 
     @Test
-    void py(){
+    void py() {
         String djangoServiceUrl = "http://localhost:8000/python/";  // Django服务的URL
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(djangoServiceUrl, String.class);
         System.out.println("Response from Django (Python) service: " + response);
+    }
+
+    @Test
+    void rate() {
+        System.out.println(rateService.selectAllRating(1));
     }
 }
