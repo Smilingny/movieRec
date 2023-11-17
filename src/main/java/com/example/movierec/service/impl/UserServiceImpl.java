@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public boolean saveUser(User user) {
         // 检查用户名是否存在
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", user.getUsername());
+        queryWrapper.eq("name", user.getName());
         User existingUser = userMapper.selectOne(queryWrapper);
 
         if (existingUser != null) {
