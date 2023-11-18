@@ -19,7 +19,7 @@ public class User {
     private String account;
     private String email;
     private Date birthday;
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
     private Boolean sex;
 
