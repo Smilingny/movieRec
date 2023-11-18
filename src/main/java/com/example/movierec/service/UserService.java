@@ -26,5 +26,5 @@ public interface UserService {
 
     User findById(Integer id);
 
-    void changeInfoById(Integer id, String name, String account, Boolean sex);
+    void changeInfo(User user);
 }

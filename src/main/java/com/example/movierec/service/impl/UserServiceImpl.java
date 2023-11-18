@@ -76,21 +76,18 @@ public class UserServiceImpl implements UserService {
     public User findById(Integer id) {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper
-                .select("id","name", "account", "sex")
+                .select("id","name", "account", "sex", "birthday", "email")
                 .eq("id", id);
         User user = userMapper.selectOne(userQueryWrapper);
         return user;
     }
 
     @Override
-    public void changeInfoById(Integer id, String name, String account, Boolean sex) {
+    public void changeInfo(User user) {
         UpdateWrapper<User> userUpdateWrapper=new UpdateWrapper<>();
         userUpdateWrapper
-                .set("name",name)
-                .set("account",account)
-                .set("sex",sex)
-                .eq("id",id);
-        userMapper.update(null, userUpdateWrapper);
+                .eq("id",user.getId());
+        userMapper.update(user, userUpdateWrapper);
     }
     public void updateUser(User user) {
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();

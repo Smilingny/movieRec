@@ -107,9 +107,12 @@ public class UserController {
      * @return
      */
     @PutMapping("changeInfo")
-    public ResponseEntity<Object> changeInfo(@RequestBody User user) {
+    public ResponseEntity<Object> changeInfo(@RequestBody User user,
+                                             HttpServletRequest request) {
         try {
-            userService.changeInfoById(user.getId(), user.getName(), user.getAccount(), user.getSex());
+            Integer id = (Integer) request.getAttribute("id"); // 获取用户id
+            user.setId(id);
+            userService.changeInfo(user);
             return new ResponseEntity<>("修改成功",HttpStatus.OK);
         }catch (DataAccessException e){
             return new ResponseEntity<>("修改失败",HttpStatus.BAD_REQUEST);
