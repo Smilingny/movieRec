@@ -1,5 +1,7 @@
 package com.example.movierec.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.movierec.dto.MovieSimple;
 import org.springframework.stereotype.Service;
 import com.example.movierec.entity.Rating;
 
@@ -30,4 +32,6 @@ public interface RateService {
     String selectRating(Integer movieId, Integer userId);
 
     List<Rating> selectAllRating(Integer movieId);
+
+    IPage<MovieSimple> getMoviesByRating(int rating, int pageNumber, int pageSize);
 }

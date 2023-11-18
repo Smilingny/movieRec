@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RecommendServiceImpl implements RecommendService {
 
-    @Autowired
-    private RecommendMapper recommendMapper;
+    private final RecommendMapper recommendMapper;
+
+    public RecommendServiceImpl(RecommendMapper recommendMapper) {
+        this.recommendMapper = recommendMapper;
+    }
     /**
      * 分页获取电影列表
      *

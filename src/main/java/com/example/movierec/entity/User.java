@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @TableName("user")
 @NoArgsConstructor
@@ -15,6 +17,8 @@ public class User {
     private Integer id;
     private String name;
     private String account;
+    private String email;
+    private Date birthday;
     @JsonIgnore
     private String password;
     private Boolean sex;

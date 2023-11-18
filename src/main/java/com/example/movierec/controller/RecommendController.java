@@ -17,8 +17,12 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/")
 public class RecommendController {
-    @Autowired
-    private RecommendService recommendService;
+
+    private final RecommendService recommendService;
+
+    public RecommendController(RecommendService recommendService) {
+        this.recommendService = recommendService;
+    }
 
     /**
      * 分页获取推荐电影

@@ -1,6 +1,9 @@
 package com.example.movierec.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Rating;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.service.RateService;
@@ -12,8 +15,11 @@ import java.util.List;
 
 @Service
 public class RateServiceImpl implements RateService {
-    @Autowired
-    private RatingMapper ratingMapper;
+    private final RatingMapper ratingMapper;
+
+    public RateServiceImpl(RatingMapper ratingMapper) {
+        this.ratingMapper = ratingMapper;
+    }
 
     /**
      * 评价电影
@@ -71,4 +77,28 @@ public class RateServiceImpl implements RateService {
                 .eq("movie", movieId);
         return ratingMapper.selectList(selectallratingQueryWrapper);
     }
+
+    @Override
+    public IPage<MovieSimple> getMoviesByRating(int rating, int pageNumber, int pageSize) {
+        QueryWrapper<Rating> ratingQueryWrapper = new QueryWrapper<>();
+        if (rating == 1) {
+            ratingQueryWrapper.orderByDesc("r.score")
+                    .between("r.score", 0, 2);
+        } else if (rating == 2) {
+            ratingQueryWrapper.orderByDesc("r.score")
+                    .between("r.score", 2, 4);
+        } else if (rating == 3) {
+            ratingQueryWrapper.orderByDesc("r.score")
+                    .between("r.score", 4, 6);
+        } else if (rating == 4) {
+            ratingQueryWrapper.orderByDesc("r.score")
+                    .between("r.score", 6, 8);
+        } else if (rating == 5) {
+            ratingQueryWrapper.orderByDesc("r.score")
+                    .between("r.score", 8, 10);
+        }
+        IPage<MovieSimple> page = new Page<>(pageNumber, pageSize);
+        return ratingMapper.getMoviesByRating(page, ratingQueryWrapper);
+    }
+
 }

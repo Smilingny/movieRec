@@ -70,7 +70,7 @@ class MovieRecApplicationTests {
 
     @Test
     void f2() {
-        genreService.getMovieGenres(1);
+        genreService.getMovieGenres(1).forEach(System.out::println);
     }
 
     @Test

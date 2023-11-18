@@ -16,8 +16,12 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/")
 public class MovieController {
-    @Autowired
-    private MovieService movieService;
+
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     // TODO 刘
 
@@ -55,6 +59,7 @@ public class MovieController {
             return ResponseEntity.ok(movie);
         }
     }
+
 
     @GetMapping("searchMovie")
     public ResponseEntity<Object> searchMovie(@RequestParam(value = "pageNumber") int pageNumber,

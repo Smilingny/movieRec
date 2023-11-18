@@ -15,11 +15,14 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private RedisCache redisCache;
+    private final UserMapper userMapper;
 
+    private final RedisCache redisCache;
+
+    public UserServiceImpl(UserMapper userMapper, RedisCache redisCache) {
+        this.userMapper = userMapper;
+        this.redisCache = redisCache;
+    }
 
 
     /**

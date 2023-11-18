@@ -15,8 +15,12 @@ import java.util.List;
 
 @Service
 public class GenreServiceImpl implements GenreService {
-    @Autowired
-    private GenreMapper genreMapper;
+
+    private final GenreMapper genreMapper;
+
+    public GenreServiceImpl(GenreMapper genreMapper) {
+        this.genreMapper = genreMapper;
+    }
 
     /**
      * 分页获取某个类型的电影

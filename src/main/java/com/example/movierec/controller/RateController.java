@@ -1,5 +1,7 @@
 package com.example.movierec.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Rating;
 import com.example.movierec.service.RateService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,13 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @RestController
 @RequestMapping("/")
 public class RateController {
-    @Autowired
-    private RateService rateService;
+    private final RateService rateService;
+
+    public RateController(RateService rateService) {
+        this.rateService = rateService;
+    }
 
     /**
      * 评价电影
@@ -93,6 +99,26 @@ public class RateController {
             return new ResponseEntity<>("点赞成功", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("点赞失败", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * 分页获取某个评分的电影
+     *
+     * @param pageNumber 页码
+     * @param pageSize   页大小
+     * @param rating     评分
+     * @return 电影列表
+     */
+    @GetMapping("getMoviesByRating")
+    public ResponseEntity<Object> getMoviesByRating(@RequestParam(value = "pageNumber") int pageNumber,
+                                                    @RequestParam(value = "pageSize") int pageSize,
+                                                    @RequestParam(value = "rating") int rating) {
+        IPage<MovieSimple> movies = rateService.getMoviesByRating(rating, pageNumber, pageSize);
+        if (Objects.isNull(movies)) {
+            return new ResponseEntity<>("获取失败", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(movies, HttpStatus.OK);
         }
     }
 }
