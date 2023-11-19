@@ -7,6 +7,7 @@ import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Rating;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.service.RateService;
+import com.example.movierec.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @Service
 public class RateServiceImpl implements RateService {
     private final RatingMapper ratingMapper;
+    private final RecommendService recommendService;
 
-    public RateServiceImpl(RatingMapper ratingMapper) {
+    public RateServiceImpl(RatingMapper ratingMapper, RecommendService recommendService) {
         this.ratingMapper = ratingMapper;
+        this.recommendService = recommendService;
     }
 
     /**
@@ -39,6 +42,7 @@ public class RateServiceImpl implements RateService {
         if (ratingMapper.exists(existWrapper)) {
             return ratingMapper.update(rating, existWrapper) != 0;
         } else {
+            recommendService.Recommend(userId);
             return ratingMapper.insert(rating) != 0;
         }
     }

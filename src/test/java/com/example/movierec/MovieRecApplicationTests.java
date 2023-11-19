@@ -15,6 +15,7 @@ import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.mapper.UserMapper;
 import com.example.movierec.service.GenreService;
 import com.example.movierec.service.RateService;
+import com.example.movierec.service.RecommendService;
 import com.example.movierec.service.UserService;
 import com.example.movierec.util.JwtUtil;
 import com.example.movierec.util.RedisCache;
@@ -22,7 +23,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +51,8 @@ class MovieRecApplicationTests {
     private RatingMapper ratingMapper;
     @Autowired
     private RateService rateService;
+    @Autowired
+    private RecommendService recommendService;
 
     @Autowired
     private RedisCache redisCache;
@@ -62,11 +69,7 @@ class MovieRecApplicationTests {
     }
 
 
-    @Test
-    void changeInfo() {
-        userService.changeInfoById(1, "张完", "2023", false);
-        System.out.println(userService.findById(1));
-    }
+
 
     @Test
     void f2() {
@@ -85,13 +88,16 @@ class MovieRecApplicationTests {
     @Test
     void py() {
         String djangoServiceUrl = "http://localhost:8000/python/";  // Django服务的URL
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(djangoServiceUrl)
+                .queryParam("user_id", "1");
         RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject(djangoServiceUrl, String.class);
+        String response = restTemplate.getForObject(builder.toUriString(), String.class);
         System.out.println("Response from Django (Python) service: " + response);
     }
 
+
     @Test
     void rate() {
-        System.out.println(rateService.selectAllRating(1));
+        recommendService.Recommend(1);
     }
 }

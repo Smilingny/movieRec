@@ -15,4 +15,10 @@ public class Recommend {
     private Integer movie;
     private Integer user;
     private Date date;
+
+    public Recommend(Integer movie, Integer user) {
+        this.movie=movie;
+        this.user=user;
+        this.date=new Date();
+    }
 }

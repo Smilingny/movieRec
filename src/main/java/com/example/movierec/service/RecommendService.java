@@ -14,4 +14,6 @@ public interface RecommendService {
      * @return 电影列表
      */
     IPage<MovieSimple> getRecommend(int pageNumber, int pageSize, Integer userId);
+
+    void Recommend(Integer userId);
 }

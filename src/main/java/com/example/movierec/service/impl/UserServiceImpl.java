@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         userQueryWrapper
                 .select("id","name", "account", "sex", "birthday", "email")
                 .eq("id", id);
+
         User user = userMapper.selectOne(userQueryWrapper);
         return user;
     }
