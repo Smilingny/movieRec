@@ -49,4 +49,8 @@ public class GenreServiceImpl implements GenreService {
         movieQueryWrapper.eq("m.id",movieId);
         return genreMapper.getMovieGenres(movieQueryWrapper);
     }
+
+    public List<Genre> getAllGenres(){
+        return genreMapper.selectList(null);
+    }
 }

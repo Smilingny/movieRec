@@ -2,6 +2,7 @@ package com.example.movierec.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.movierec.dto.MovieSimple;
+import com.example.movierec.entity.Genre;
 import com.example.movierec.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,10 @@ public interface GenreService {
      * @return 电影的类型列表
      */
     List<String> getMovieGenres(Integer movieId);
+
+    /**
+     * 获取所有电影类型
+     * @return 所有电影类型
+     */
+    List<Genre> getAllGenres();
 }

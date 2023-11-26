@@ -13,10 +13,7 @@ import com.example.movierec.mapper.GenreMapper;
 import com.example.movierec.mapper.MovieMapper;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.mapper.UserMapper;
-import com.example.movierec.service.GenreService;
-import com.example.movierec.service.RateService;
-import com.example.movierec.service.RecommendService;
-import com.example.movierec.service.UserService;
+import com.example.movierec.service.*;
 import com.example.movierec.util.JwtUtil;
 import com.example.movierec.util.RedisCache;
 import org.junit.jupiter.api.Test;
@@ -53,7 +50,10 @@ class MovieRecApplicationTests {
     private RateService rateService;
     @Autowired
     private RecommendService recommendService;
-
+    @Autowired
+    private MovieService movieService;
+    @Autowired
+    private HistoryService historyService;
     @Autowired
     private RedisCache redisCache;
 
@@ -67,8 +67,6 @@ class MovieRecApplicationTests {
         User user = (User) userMapper.selectByMap(map).get(0);
         System.out.println(user);
     }
-
-
 
 
     @Test
@@ -98,6 +96,6 @@ class MovieRecApplicationTests {
 
     @Test
     void rate() {
-        recommendService.Recommend(1);
+        System.out.println(historyService.getHistoryCounts(1));
     }
 }

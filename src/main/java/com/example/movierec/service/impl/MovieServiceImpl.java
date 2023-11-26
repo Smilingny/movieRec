@@ -10,6 +10,7 @@ import com.example.movierec.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,4 +51,20 @@ public class MovieServiceImpl implements MovieService {
         // 调用MovieMapper的方法根据ID查询电影信息，这里假设为selectMovieById方法
         return movieMapper.selectMovieById(movieId);
     }
+
+    /**
+     *
+     * @param userId 用户id
+     * @return 数量列表
+     */
+    @Override
+    public List<Integer> getMovieCountsByYear(Integer userId) {
+        List<Integer> movieCounts = new ArrayList<>();
+        for (int i = 1920; i <= 2010; i += 10) {
+            movieCounts.add(movieMapper.selectMovieCountByYear(userId, i, i + 9));
+        }
+        return movieCounts;
+    }
+
+
 }

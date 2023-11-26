@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.movierec.dto.MovieSimple;
+import com.example.movierec.dto.GenreCounts;
 import com.example.movierec.entity.Rating;
 import com.example.movierec.mapper.RatingMapper;
 import com.example.movierec.service.RateService;
 import com.example.movierec.service.RecommendService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import java.util.List;
 public class RateServiceImpl implements RateService {
     private final RatingMapper ratingMapper;
     private final RecommendService recommendService;
+
 
     public RateServiceImpl(RatingMapper ratingMapper, RecommendService recommendService) {
         this.ratingMapper = ratingMapper;
@@ -83,26 +84,34 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public IPage<MovieSimple> getMoviesByRating(int rating, int pageNumber, int pageSize) {
+    public IPage<MovieSimple> getMoviesByRating(int rating, Integer userId, int pageNumber, int pageSize) {
         QueryWrapper<Rating> ratingQueryWrapper = new QueryWrapper<>();
+        ratingQueryWrapper.eq("user", userId);
         if (rating == 1) {
             ratingQueryWrapper.orderByDesc("r.score")
-                    .between("r.score", 0, 2);
+                    .between("r.score", 0, 1.99);
         } else if (rating == 2) {
             ratingQueryWrapper.orderByDesc("r.score")
-                    .between("r.score", 2, 4);
+                    .between("r.score", 2, 3.99);
         } else if (rating == 3) {
             ratingQueryWrapper.orderByDesc("r.score")
-                    .between("r.score", 4, 6);
+                    .between("r.score", 4, 5.99);
         } else if (rating == 4) {
             ratingQueryWrapper.orderByDesc("r.score")
-                    .between("r.score", 6, 8);
+                    .between("r.score", 6, 7.99);
         } else if (rating == 5) {
             ratingQueryWrapper.orderByDesc("r.score")
                     .between("r.score", 8, 10);
         }
         IPage<MovieSimple> page = new Page<>(pageNumber, pageSize);
         return ratingMapper.getMoviesByRating(page, ratingQueryWrapper);
+    }
+
+    @Override
+    public List<GenreCounts> getMovieCountsOfGenre(Integer userId){
+
+        return ratingMapper.getGenreCounts(1);
+
     }
 
 }

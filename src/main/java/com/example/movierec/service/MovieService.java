@@ -5,6 +5,8 @@ import com.example.movierec.dto.MovieSimple;
 import com.example.movierec.entity.Movie;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface MovieService {
     /**
@@ -15,4 +17,6 @@ public interface MovieService {
     IPage<Movie> searchMovie(String keyWord, int pageNumber, int pageSize);
     IPage<MovieSimple> getPagedMoviesSortedByRating(int pageNumber, int pageSize);
     Movie getMovieById(Integer movieId);
+
+    List<Integer> getMovieCountsByYear(Integer userId);
 }

@@ -107,18 +107,38 @@ public class RateController {
      *
      * @param pageNumber 页码
      * @param pageSize   页大小
-     * @param rating     评分
+     * @param rating     评分级别（1-5）
      * @return 电影列表
      */
     @GetMapping("getMoviesByRating")
     public ResponseEntity<Object> getMoviesByRating(@RequestParam(value = "pageNumber") int pageNumber,
                                                     @RequestParam(value = "pageSize") int pageSize,
-                                                    @RequestParam(value = "rating") int rating) {
-        IPage<MovieSimple> movies = rateService.getMoviesByRating(rating, pageNumber, pageSize);
+                                                    @RequestParam(value = "rating") int rating,
+                                                    HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("id");
+        IPage<MovieSimple> movies = rateService.getMoviesByRating(rating, userId, pageNumber, pageSize);
         if (Objects.isNull(movies)) {
             return new ResponseEntity<>("获取失败", HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(movies, HttpStatus.OK);
+        }
+    }
+
+    /**
+     * 获取已评价电影各个类型的数量
+     *
+     * @param request 包含用户id
+     * @return
+     */
+    @GetMapping("getMovieCountsOfGenre")
+    public ResponseEntity<Object> getMovieCountsOfGenre(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("id");
+        try {
+            rateService.getMovieCountsOfGenre(userId);
+            return new ResponseEntity<>(rateService.getMovieCountsOfGenre(userId), HttpStatus.OK);
+        } catch (Exception e ){
+            e.printStackTrace();
+            return new ResponseEntity<>("获取失败", HttpStatus.BAD_REQUEST);
         }
     }
 }

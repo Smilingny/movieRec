@@ -17,6 +17,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JWTInterceptor(redisCache))
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login","/register");  // 放行登陆、注册请求
+                .excludePathPatterns("/login","/register","/v3", "/v3/");  // 放行登陆、注册请求
     }
 }

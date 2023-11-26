@@ -2,11 +2,11 @@ package com.example.movierec.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.movierec.dto.MovieSimple;
+import com.example.movierec.dto.GenreCounts;
 import org.springframework.stereotype.Service;
 import com.example.movierec.entity.Rating;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public interface RateService {
@@ -33,5 +33,7 @@ public interface RateService {
 
     List<Rating> selectAllRating(Integer movieId);
 
-    IPage<MovieSimple> getMoviesByRating(int rating, int pageNumber, int pageSize);
+    IPage<MovieSimple> getMoviesByRating(int rating, Integer userId, int pageNumber, int pageSize);
+
+    List<GenreCounts> getMovieCountsOfGenre(Integer userId);
 }
